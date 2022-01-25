@@ -10,7 +10,6 @@ class TempController extends Controller
 
     public function getTemper(Request $request) {
        $date = $request->date;
-       //
        return view('components.temper_items',[
            'data'=> Temp::query()->whereDate('datatime', $date)->get()
        ]);
@@ -21,6 +20,18 @@ class TempController extends Controller
         return view('home',[
             'data' => Temp::query()->whereDate('datatime', $date)->get(),
             'current_date' => $date
+        ]);
+    }
+
+    public function setDataArduino(Request $request){
+        $tet = $request->tt;
+        $ted = $request->td;
+        $teu = $request->tu;
+
+        Temp::create([
+            'dom' => $ted,
+            'ulica' => $teu,
+            'teplica' => $tet,
         ]);
     }
 

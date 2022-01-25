@@ -15,4 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/ajax/temper/date', [\App\Http\Controllers\TempController::class, 'getTemper'])->name('temp-data');
 
+Route::any('/arduino/set', [\App\Http\Controllers\TempController::class, 'setDataArduino']);
+Route::any('/a', [\App\Http\Controllers\TempController::class, 'setDataArduino']);
+
 Route::get('/',[\App\Http\Controllers\TempController::class,'index'])->name('home');
