@@ -10,6 +10,7 @@ class TempController extends Controller
 
     public function getTemper(Request $request) {
        $date = $request->date;
+       //
        return view('components.temper_items',[
            'data'=> Temp::query()->whereDate('datatime', $date)->get()
        ]);
