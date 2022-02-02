@@ -11,15 +11,17 @@ class TempController extends Controller
     public function getTemper(Request $request) {
        $date = $request->date;
        return view('components.temper_items',[
-           'data'=> Temp::query()->whereDate('datatime', $date)->get()
+           'data'=> Temp::query()->whereDate('datatime', $date)->latest('datatime')->get()
        ]);
     }
-
+    public function contact(){
+     return view('contact');
+    }
     public function index(){
         $date = now()->format('Y-m-d');
-        return view('home',[
-            'data' => Temp::query()->whereDate('datatime', $date)->get(),
-            'current_date' => $date
+        return view('temper',[
+            'data' => Temp::query()->whereDate('datatime', $date)->latest('datatime')->get(),
+            'current_date' => $date,
         ]);
     }
 
