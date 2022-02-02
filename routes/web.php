@@ -19,5 +19,3 @@ Route::get('/a.php', [\App\Http\Controllers\TempController::class, 'setDataArdui
 Route::get('/',[\App\Http\Controllers\HomeController::class,'index'])->name('home');
 Route::get('/temper',[\App\Http\Controllers\TempController::class,'index'])->name('temper');
 Route::get('/contact',[\App\Http\Controllers\TempController::class,'contact']);
-/*Route::get('/home', [App\Http\Controllers\TempController::class, 'index'])->name('home');*/
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
