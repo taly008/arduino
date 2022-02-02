@@ -8,13 +8,13 @@
     <h1>Страница контактов</h1>
 
     <form action="/contact/submit" method="post" >
-        <div class="form-group"
+        <div class="form-group">
             <label for="name">Введите имя</label>
-            <input type="text" name="name" blaceholder="Введите имя" id="name" class="form-contr">
+            <input type="text" name="name" placeholder="Введите имя" id="name" class="form-contr">
         </div>
-        <div class="form-group"
-        <label for="name">Введите имя</label>
-        <input type="text" name="name" blaceholder="Введите имя" id="name" class="form-contr">
+        <div class="form-group">
+            <label for="name">Введите имя</label>
+            <input type="text" name="name" placeholder="Введите имя" id="name" class="form-contr">
         </div>
     </form>
 

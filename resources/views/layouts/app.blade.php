@@ -14,10 +14,9 @@
     @stack('scripts')
 </head>
 <body>
-<main>
-    @include('inc.header')
-    @yield('content')
-</main>
-
+    <main>
+        @include('inc.header')
+        @yield('content')
+    </main>
 </body>
 </html>
