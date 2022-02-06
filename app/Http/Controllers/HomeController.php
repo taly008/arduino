@@ -19,10 +19,10 @@ class HomeController extends Controller
             'data'=> Temp::query()->whereDate('datatime', $date)->latest('datatime')->get()
         ]);
     }
+
     public function contact(){
         return view('contact');
     }
-
 
     public function temper(){
         $date = now()->format('Y-m-d');
@@ -37,18 +37,25 @@ class HomeController extends Controller
         $ted = $request->td;
         $teu = $request->tu;
 
-
-
         Temp::create([
             'dom' => $ted,
             'ulica' => $teu,
             'teplica' => $tet,
         ]);
 
+/*        $affectedRecords = Nastr::updateOrCreate([
+            'id' => 1,
+        ],[
+            'dom' => $ted,
+            'ulica' => $teu,
+            'teplica' => $tet
+        ]);*/
+
         $affectedRecords = Nastr::where("id", 1)->update([
             'dom' => $ted,
             'ulica' => $teu,
-            'teplica' => $tet]);
+            'teplica' => $tet
+        ]);
 
     }
 }

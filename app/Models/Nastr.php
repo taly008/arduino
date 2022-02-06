@@ -12,11 +12,11 @@ class Nastr extends Authenticatable
 {
     use HasFactory;
 
-    public $timestamps = false;
-
     protected $fillable = [
         'dom',
         'ulica',
         'teplica',
     ];
+
+
 }
