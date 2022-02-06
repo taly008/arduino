@@ -14,7 +14,7 @@ class ChangeColumnsToNastrs extends Migration
     public function up()
     {
         Schema::table('nastrs', function (Blueprint $table) {
-            $table->integer('id')->change();
+            $table->integer('id', true)->change();
             $table->float('ulica')->nullable()->change();
             $table->float('dom')->nullable()->change();
             $table->float('teplica')->nullable()->change();
