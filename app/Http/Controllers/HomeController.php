@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Nastr;
 use App\Models\Temp;
 use Illuminate\Http\Request;
 
@@ -36,10 +37,18 @@ class HomeController extends Controller
         $ted = $request->td;
         $teu = $request->tu;
 
+
+
         Temp::create([
             'dom' => $ted,
             'ulica' => $teu,
             'teplica' => $tet,
         ]);
+
+        $affectedRecords = Nastr::where("id", 1)->update([
+            'dom' => $ted,
+            'ulica' => $teu,
+            'teplica' => $tet]);
+
     }
 }

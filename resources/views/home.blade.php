@@ -9,7 +9,7 @@
 
                 <div class="card-body">-->
                     @if (session('status'))
-
+                        {{ __('Вы вошли в систему') }}
                        <!-- <div class="alert alert-success" role="alert">
 
                         </div> -->
@@ -22,5 +22,5 @@
         </div>
     </div>
 </div>-->
-    {{ __('Вы вошли в систему') }}
+
 @endsection
