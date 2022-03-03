@@ -1,3 +1,4 @@
+
 function showUser(str) {
     $.ajaxSetup({
         headers: {
@@ -22,6 +23,8 @@ function showUser(str) {
 $(document).on('change', '#davaToday', function(){
     showUser($(this).val());
 });
+
+
 
 function change( el )
 {

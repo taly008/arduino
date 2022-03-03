@@ -11,8 +11,12 @@
         <h5 class="my-0 mr-md-auto font-weig-normal">Алтайский край Тальменский район р.п.Тальменка пер.Школьный 10-1</h5>
         <div class="header-right">
             <a class="me-3 py-2 text-dark text-decoration-none" href="{{route('home')}}">Главная</a>
+            <a class="me-3 py-2 text-dark text-decoration-none" href="/checkcode">Проверка кода</a>
             <a class="me-3 py-2 text-dark text-decoration-none" href="/temper">Температура</a>
-            <a class="me-3 py-2 text-dark text-decoration-none" href="/contact">Контакты</a>
+            <a class="me-3 py-2 text-dark text-decoration-none" href="/contact">TVmaze</a>
+            @if (Auth::user()->hasRole('admin'))
+              <a class="me-3 py-2 text-dark text-decoration-none" href="/setting">Настройки</a>
+            @endif
             <a class="me-3 py-2 text-dark text-decoration-none" href="">{{ Auth::user()->name }}</a>
             <form id="logout-form" action="{{ route('logout') }}" method="POST">
                 @csrf

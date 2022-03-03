@@ -1,3 +1,57 @@
+#set1 {
+    width: 50px;
+}
+.radio {
+    text-align: left;
+    margin-left: 10px;
+}
+.setting{
+    border: solid 1px silver;
+    border-radius: 10px;
+    text-align: center;
+    background: #FBFDEFFF;
+}
+#data-wrapper{
+    display: flex;
+    flex-flow: row;
+    flex-basis: 100%;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
+}
+.myflex {
+    display: flex;
+    flex-flow: row;
+    flex-basis: 100%;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    width: 100%;
+}
+.data-item {
+    border: 2px solid black;
+    padding: 10px;
+    background-color: #d0c1ad;
+    width: 250px;
+    height: 400px ;
+    overflow: scroll;
+    margin-bottom: 15px;
+}
+.data-item span {
+    font-size: 20px;
+    font-width: bold;
+}
+.image {
+    display: flex;
+    justify-content: center;
+    margin: 10px;
+}
+
+.check-code{
+    border: solid 1px silver;
+    border-radius: 10px;
+    text-align: center;
+    background: #e4e5d8;
+}
 h1 {
     font-size: 50px;
     /*  text-align: center;*/
@@ -8,22 +62,28 @@ body {
     background-image: url(/public/img/3.jpg);
 }
 .temper-table {
-    height: 420px;
-    width: 334px;
+    height: 445px;
+    width: 338px;
+    margin-left: 10px;
     border-radius: 3px;
     background-color: #e4e5d8;
 }
+.temper-table legend {
+    text-align: center;
+}
 .scroll-table-body {
     height: 300px;
-    width: 300px;
+    width: 317px;
     overflow-x: auto;
+    margin-left: 10px;
     margin-top: 1px;
     margin-bottom: 1px;
     border: 1px solid #b2b3aa;
     /*	border: 1px solid #eee;*/
 }
 .scroll-table table {
-    width: 303px;
+    width: 317px;
+    margin-left: 10px;
     table-layout: fixed;
     border: 1px solid #b2b3aa;
     /*	border-right: 1px solid #b2b3aa;*/
@@ -51,6 +111,7 @@ body {
 }
 /*Стили для скролла */
 #davaToday {
+    margin-left: 10px;
     background-color: #f2f2eb;
 }
 ::-webkit-scrollbar {

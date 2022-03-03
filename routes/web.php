@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,9 +20,20 @@ Route::group([
     Route::any('/arduino/set', [\App\Http\Controllers\HomeController::class, 'setDataArduino']);
     Route::get('/temper',[\App\Http\Controllers\HomeController::class,'temper'])->name('temper');
     Route::get('/contact',[\App\Http\Controllers\HomeController::class,'contact']);
+    Route::get('/checkcode',[\App\Http\Controllers\HomeController::class,'checkcode']);
+    Route::post('/check',[\App\Http\Controllers\HomeController::class,'check'])->name('check');
+
 });
 
-Route::get('/a.php', [\App\Http\Controllers\HomeController::class, 'setDataArduino']);
+Route::group([
+    'middleware' => ['role:admin']
+],function(){
+    Route::get('/setting',[\App\Http\Controllers\HomeController::class,'setting'])->name('setting');
+    Route::post('/saveSetting',[\App\Http\Controllers\HomeController::class,'saveSetting'])->name('saveSetting');
+});
 
-
+Route::get('/b.php', [\App\Http\Controllers\HomeController::class, 'setDataArduino']);
+Route::get('/test', [\App\Http\Controllers\HomeController::class, 'test']);
+Route::post('/ajax/temper/getHomeTemper', [\App\Http\Controllers\HomeController::class, 'getHomeTemper']);
 Auth::routes();
+

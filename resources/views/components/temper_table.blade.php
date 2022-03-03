@@ -7,7 +7,7 @@
 
             <table>
                 <tr>
-                    <th rowspan=2>Bремя</th>
+                    <th rowspan=2 width="90">Bремя</th>
                     <th colspan=3>Температура</th>
                 </tr>
                 <tr>
@@ -27,3 +27,29 @@
         </div>
     </fieldset>
 </div>
+
+<script>
+
+    $(document).ready(function (){
+        setInterval(function () {
+            let date = $('#davaToday').val();
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: '/ajax/temper/date',          /* Куда пойдет запрос */
+                method: 'post',             /* Метод передачи (post или get) */
+                data: {date: date},
+
+
+                success: function(outresp){
+                        $('#resposnse').html(outresp)
+                },
+                error: function(e){
+                    console.log('Error: ' + e);
+                }
+            })
+        },20000)
+    })
+
+</script>

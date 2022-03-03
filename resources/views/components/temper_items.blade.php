@@ -6,3 +6,4 @@
         <td>{{$item->teplica}}</td>
     </tr>
 @endforeach
+
