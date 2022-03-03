@@ -1,9 +1,4 @@
 <?php
-namespace App\Core;
-define ("SERIAL_DEVICE_NOTSET", 0);
-define ("SERIAL_DEVICE_SET", 1);
-define ("SERIAL_DEVICE_OPENED", 2);
-
 /**
  * Serial port control class
  *
@@ -19,33 +14,38 @@ define ("SERIAL_DEVICE_OPENED", 2);
  * @thanks Alec Avedisyan for help and testing with reading
  * @copyright under GPL 2 licence
  */
+namespace App\Core;
+
 class phpSerial
 {
     const SERIAL_DEVICE_NOTSET = 0;
     const SERIAL_DEVICE_SET = 1;
     const SERIAL_DEVICE_OPENED = 2;
 
-
-    var $_device = null;
-    var $_windevice = null;
-    var $_dHandle = null;
-    var $_dState = SERIAL_DEVICE_NOTSET;
-    var $_buffer = "";
-    var $_os = "";
+    protected $_device = null;
+    protected $_windevice = null;
+    protected $_dHandle = null;
+    protected $_dState = 0;
+    protected $_buffer = "";
+    protected $_os = "";
 
     /**
      * This var says if buffer should be flushed by sendMessage (true) or manualy (false)
      *
      * @var bool
      */
-    var $autoflush = true;
+    protected $autoflush = true;
+
+    public function __construct(){
+        $this->_dState = static::SERIAL_DEVICE_NOTSET;
+    }
 
     /**
      * Constructor. Perform some checks about the OS and setserial
      *
      * @return phpSerial
      */
-    function phpSerial ()
+    public function phpSerial ()
     {
         setlocale(LC_ALL, "en_US");
 
@@ -104,9 +104,9 @@ class phpSerial
      * @param string $device the name of the device to be used
      * @return bool
      */
-    function deviceSet ($device)
+    public function deviceSet ($device)
     {
-        if ($this->_dState !== SERIAL_DEVICE_OPENED)
+        if ($this->_dState !== static::SERIAL_DEVICE_OPENED)
         {
             if ($this->_os === "linux")
             {
@@ -118,7 +118,7 @@ class phpSerial
                 if ($this->_exec("stty -F " . $device) === 0)
                 {
                     $this->_device = $device;
-                    $this->_dState = SERIAL_DEVICE_SET;
+                    $this->_dState = static::SERIAL_DEVICE_SET;
                     return true;
                 }
             }
@@ -133,7 +133,7 @@ class phpSerial
                 if ($this->_exec("stty -f " . $device) === 0)
                 {
                     $this->_device = $device;
-                    $this->_dState = SERIAL_DEVICE_SET;
+                    $this->_dState = static::SERIAL_DEVICE_SET;
                     return true;
                 }
             }
@@ -143,7 +143,7 @@ class phpSerial
                 {
                     $this->_windevice = "COM" . $matches[1];
                     $this->_device = "\\.\com" . $matches[1];
-                    $this->_dState = SERIAL_DEVICE_SET;
+                    $this->_dState = static::SERIAL_DEVICE_SET;
                     return true;
                 }
             }
@@ -164,15 +164,15 @@ class phpSerial
      * @param string $mode Opening mode : same parameter as fopen()
      * @return bool
      */
-    function deviceOpen ($mode = "r+b")
+    public function deviceOpen ($mode = "r+b")
     {
-        if ($this->_dState === SERIAL_DEVICE_OPENED)
+        if ($this->_dState === static::SERIAL_DEVICE_OPENED)
         {
             trigger_error("The device is already opened", E_USER_NOTICE);
             return true;
         }
 
-        if ($this->_dState === SERIAL_DEVICE_NOTSET)
+        if ($this->_dState === static::SERIAL_DEVICE_NOTSET)
         {
             trigger_error("The device must be set before to be open", E_USER_WARNING);
             return false;
@@ -189,7 +189,7 @@ class phpSerial
         if ($this->_dHandle !== false)
         {
             stream_set_blocking($this->_dHandle, 0);
-            $this->_dState = SERIAL_DEVICE_OPENED;
+            $this->_dState = static::SERIAL_DEVICE_OPENED;
             return true;
         }
 
@@ -203,9 +203,9 @@ class phpSerial
      *
      * @return bool
      */
-    function deviceClose ()
+    public function deviceClose ()
     {
-        if ($this->_dState !== SERIAL_DEVICE_OPENED)
+        if ($this->_dState !== static::SERIAL_DEVICE_OPENED)
         {
             return true;
         }
@@ -213,7 +213,7 @@ class phpSerial
         if (fclose($this->_dHandle))
         {
             $this->_dHandle = null;
-            $this->_dState = SERIAL_DEVICE_SET;
+            $this->_dState = static::SERIAL_DEVICE_SET;
             return true;
         }
 
@@ -237,9 +237,9 @@ class phpSerial
      * @param int $rate the rate to set the port in
      * @return bool
      */
-    function confBaudRate ($rate)
+    public function confBaudRate ($rate)
     {
-        if ($this->_dState !== SERIAL_DEVICE_SET)
+        if ($this->_dState !== static::SERIAL_DEVICE_SET)
         {
             trigger_error("Unable to set the baud rate : the device is either not set or opened", E_USER_WARNING);
             return false;
@@ -291,9 +291,9 @@ class phpSerial
      * @param string $parity one of the modes
      * @return bool
      */
-    function confParity ($parity)
+    public function confParity ($parity)
     {
-        if ($this->_dState !== SERIAL_DEVICE_SET)
+        if ($this->_dState !== static::SERIAL_DEVICE_SET)
         {
             trigger_error("Unable to set parity : the device is either not set or opened", E_USER_WARNING);
             return false;
@@ -339,9 +339,9 @@ class phpSerial
      * @param int $int length of a character (5 <= length <= 8)
      * @return bool
      */
-    function confCharacterLength ($int)
+    public function confCharacterLength ($int)
     {
-        if ($this->_dState !== SERIAL_DEVICE_SET)
+        if ($this->_dState !== static::SERIAL_DEVICE_SET)
         {
             trigger_error("Unable to set length of a character : the device is either not set or opened", E_USER_WARNING);
             return false;
@@ -380,9 +380,9 @@ class phpSerial
      * 1.5 or 2. 1.5 is not supported under linux and on some computers.
      * @return bool
      */
-    function confStopBits ($length)
+    public function confStopBits ($length)
     {
-        if ($this->_dState !== SERIAL_DEVICE_SET)
+        if ($this->_dState !== static::SERIAL_DEVICE_SET)
         {
             trigger_error("Unable to set the length of a stop bit : the device is either not set or opened", E_USER_WARNING);
             return false;
@@ -424,9 +424,9 @@ class phpSerial
      *     -> "xon/xoff" : use XON/XOFF protocol
      * @return bool
      */
-    function confFlowControl ($mode)
+    public function confFlowControl ($mode)
     {
-        if ($this->_dState !== SERIAL_DEVICE_SET)
+        if ($this->_dState !== static::SERIAL_DEVICE_SET)
         {
             trigger_error("Unable to set flow control mode : the device is either not set or opened", E_USER_WARNING);
             return false;
@@ -472,7 +472,7 @@ class phpSerial
      * @param string $arg parameter value
      * @return bool
      */
-    function setSetserialFlag ($param, $arg = "")
+    public function setSetserialFlag ($param, $arg = "")
     {
         if (!$this->_ckOpened()) return false;
 
@@ -508,7 +508,7 @@ class phpSerial
      * @param string $str string to be sent to the device
      * @param float $waitForReply time to wait for the reply (in seconds)
      */
-    function sendMessage ($str, $waitForReply = 0.1)
+    public function sendMessage ($str, $waitForReply = 0.1)
     {
         $this->_buffer .= $str;
 
@@ -524,9 +524,9 @@ class phpSerial
      *     if less characters are in the buffer)
      * @return string
      */
-    function readPort ($count = 0)
+    public function readPort ($count = 0)
     {
-        if ($this->_dState !== SERIAL_DEVICE_OPENED)
+        if ($this->_dState !== static::SERIAL_DEVICE_OPENED)
         {
             trigger_error("Device must be opened to read it", E_USER_WARNING);
             return false;
@@ -569,7 +569,7 @@ class phpSerial
      *
      * @return bool
      */
-    function serialflush ()
+    public function serialflush ()
     {
         if (!$this->_ckOpened()) return false;
 
@@ -594,9 +594,9 @@ class phpSerial
     // INTERNAL TOOLKIT -- {START}
     //
 
-    function _ckOpened()
+    public function _ckOpened()
     {
-        if ($this->_dState !== SERIAL_DEVICE_OPENED)
+        if ($this->_dState !== static::SERIAL_DEVICE_OPENED)
         {
             trigger_error("Device must be opened", E_USER_WARNING);
             return false;
@@ -605,7 +605,7 @@ class phpSerial
         return true;
     }
 
-    function _ckClosed()
+    public function _ckClosed()
     {
         if ($this->_dState !== SERIAL_DEVICE_CLOSED)
         {
@@ -616,7 +616,7 @@ class phpSerial
         return true;
     }
 
-    function _exec($cmd, &$out = null)
+    public function _exec($cmd, &$out = null)
     {
         $desc = array(
             1 => array("pipe", "w"),

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Core\phpSerial;
 use Illuminate\Support\Facades\DB;
 use App\Models\Setting;
 use App\Models\Temp;
@@ -31,8 +32,7 @@ public function test()
 // //       dd($fp);
 //    }
 //    fclose($fp);
-//   include 'PhpSerial.php';
-    include 'php_serial.class.php';
+
     $serial = new phpSerial();
 
 }
